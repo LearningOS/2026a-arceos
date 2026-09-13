@@ -25,3 +25,6 @@ Cargo.lock
 /rank/
 /students.txt
 __pycache__/
+
+# Pin the dependency graph used by the 2024 ArceOS toolchain
+!/arceos/Cargo.lock

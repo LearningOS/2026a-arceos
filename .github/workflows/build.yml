@@ -21,7 +21,8 @@ jobs:
   grade:
     name: Test exercises and calculate score
     if: >-
-      github.repository == '2026f-autotest/2026f-arceos' || vars.STUDENT_GITHUB != ''
+      !startsWith(github.event.repository.name, 'preparing-') &&
+      (github.repository == '2026f-autotest/2026f-arceos' || vars.STUDENT_GITHUB != '')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     outputs:
@@ -81,6 +82,7 @@ jobs:
     name: Save measured score and upload to OpenCamp
     needs: grade
     if: >-
+      !startsWith(github.event.repository.name, 'preparing-') &&
       always() && !cancelled() && needs.grade.outputs.ready == 'true' &&
       github.repository_owner == '2026f-autotest' &&
       github.repository != '2026f-autotest/2026f-arceos' &&

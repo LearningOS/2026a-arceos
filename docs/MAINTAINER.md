@@ -15,7 +15,7 @@
 
 组织所有者创建公开模板并启用 Template repository。组织 Actions Secret 使用上表名称，访问范围为 Public repositories。课程编号、计分权重与来源记录在 `course.json`；学员身份由建仓脚本设置，不从提交作者名字推断。
 
-自助入口为 [2026f-autotest/enroll](https://github.com/2026f-autotest/enroll)。建仓凭证 `ENROLL_GITHUB_TOKEN` 仅保存在该入口的仓库 Actions Secrets，学员仓库只继承本课程上传 Secret。当前配置和真实验证见[领取入口维护流程](https://github.com/2026f-autotest/enroll/blob/main/docs/MAINTAINER.md)。
+自助入口为 [2026f-autotest/enroll](https://github.com/2026f-autotest/enroll)。建仓凭证 `ENROLL_GITHUB_TOKEN` 仅保存在该入口的仓库 Actions Secrets，评测工作流使用本课程上传 Secret。当前配置和真实验证见[领取入口维护流程](https://github.com/2026f-autotest/enroll/blob/main/docs/MAINTAINER.md)。
 
 ## 2. 学员自助领取
 
@@ -31,7 +31,7 @@
 
 `.github/scripts/publish.py` 读取本次运行的结果附件，校验课程、仓库、提交、练习清单、权重与学员身份；将当前实际分数保存到 `gh-pages:course-2078.json` 后，调用固定 OpenCamp 成绩上传 API。只有 `result=1` 才视为成功，HTTP 或业务错误会明确失败。Token 只在上传步骤注入，不出现在源码或日志。
 
-本阶段沿用往期部分得分规则：每次重新评测全部练习并上传当前总分。失败、回退代码可能使当前得分下降。新提交取消同仓库尚未完成的旧评测，以减少过时结果覆盖。
+本阶段沿用往期部分得分规则：每次重新评测全部练习并上传当前总分。失败、回退代码可能使当前得分下降。新提交取消同仓库尚未完成的旧测试；上传作业独立排队，开始上传前检查 main 是否仍是本次提交，避免重跑旧提交覆盖新成绩。
 
 `arceos/Cargo.lock` 固定实际依赖，CI 只执行 `cargo fetch --locked`，不自动更新依赖。旧流程只固定 `indexmap=2.6.0`，会拉入不兼容旧 Cargo 的 `dw_apb_uart=0.1.2`（`0.1.1` 也不兼容）；本版固定为 `0.1.0`。镜像准备与测试保留原有启动头、FAT 文件路径和输出断言，由 Python 记录退出状态；使用 mtools 写入镜像，临时镜像和日志位于仓库 `tmp/`。
 
@@ -48,3 +48,13 @@
 ## 本地应急建仓
 
 保留 `enroll.py` 供维护者处理入口故障。维护者已经完成 GitHub CLI 登录时，在本课程目录执行 `python3 enroll.py 学员GitHub登录名`；不需要把课程 Token 传给脚本。日常使用上面的自助领取入口。
+
+## 自动化代码检查与上传重试
+
+`check.yml` 自动执行本课程的自动化回归测试。备用 `enroll.py` 与领取入口使用同一份 `provision.py` 和 `github_api.py`；更新时同步这两份公共文件。
+
+成绩 JSON 的 `upload.status` 为 `accepted` 时表示 OpenCamp 已返回 `result=1`；`pending` 表示尚未记录到接口确认，结合对应 Actions 日志处理。上传失败可重跑上传作业；已保存的真实测试结果不需要重新计算。
+
+上传附件使用测试作业返回的固定 artifact ID，所以只重跑上传作业也能读取原附件。附件保留 30 天，过期后需重新运行完整评测。上传独立串行处理，已经过时的提交或工作流运行不会覆盖较新记录。
+
+[本轮审查与验证记录](https://github.com/2026f-autotest/enroll/blob/main/docs/AUDIT.md)

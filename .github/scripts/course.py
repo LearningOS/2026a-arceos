@@ -41,6 +41,8 @@ def run(command, log, cwd, seconds):
 
 
 def validate_result(result, repository, commit):
+    if not isinstance(result, dict) or any(type(result.get(key)) is not int for key in ("schema", "courseId", "totalScore")):
+        raise ValueError("Invalid result metadata types.")
     if (result.get("schema") != 1 or result.get("courseId") != COURSE["courseId"]
             or result.get("totalScore") != COURSE["totalScore"]
             or result.get("repository") != repository or result.get("commit") != commit):
@@ -50,6 +52,8 @@ def validate_result(result, repository, commit):
         raise ValueError("Incomplete exercise results; no score can be uploaded.")
     score = 0
     for expected, record in zip(COURSE["tests"], records):
+        if not isinstance(record, dict):
+            raise ValueError("Invalid exercise record.")
         if record.get("name") != expected["name"] or record.get("max") != expected["score"]:
             raise ValueError("Exercise names or weights differ from the course rubric.")
         if record.get("status") not in ("pass", "fail", "timeout") or type(record.get("exitCode")) is not int:

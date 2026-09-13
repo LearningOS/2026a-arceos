@@ -15,33 +15,15 @@
 
 组织所有者创建公开模板并启用 Template repository。组织 Actions Secret 使用上表名称，访问范围为 Public repositories。课程编号、计分权重与来源记录在 `course.json`；学员身份由建仓脚本设置，不从提交作者名字推断。
 
-维护者安装 Python 3 和 GitHub CLI，使用组织 Owner 账号完成一次授权：
+自助入口为 [2026f-autotest/enroll](https://github.com/2026f-autotest/enroll)。建仓凭证 `ENROLL_GITHUB_TOKEN` 仅保存在该入口的仓库 Actions Secrets，学员仓库只继承本课程上传 Secret。当前配置和真实验证见[领取入口维护流程](https://github.com/2026f-autotest/enroll/blob/main/docs/MAINTAINER.md)。
 
-```sh
-gh auth login --hostname github.com --git-protocol ssh --web --skip-ssh-key --scopes admin:org
-```
+## 2. 学员自助领取
 
-`--hostname` 指定 GitHub，`--git-protocol ssh` 选择 SSH，`--web` 在浏览器授权，`--skip-ssh-key` 保留现有 SSH 配置，`--scopes admin:org` 允许检查组织 Secret 与仓库访问范围。已经登录的维护者无需重复登录。课程 Token 不传入建仓脚本。
+学员点击课程 README 的领取链接，选课程 **2078** 并提交 Issue。Actions 从 `issue.user.login` 读取账号，复制本模板、设置 `STUDENT_GITHUB`、分配仓库写权限并触发配置检查；机器人回复仓库和邀请链接。助教无需收集名单或逐个运行建仓脚本。
 
-## 2. 按名单分配学员仓库
+配置完成后自动运行 **Check student configuration**，只检查身份和共享 Token 是否存在，不调用 OpenCamp。学员接受邀请后按[提交指南](STUDENT_GUIDE.md)开始实验。失败申请由维护者在领取入口的 Actions 输入原 Issue 编号重试，账号仍取原申请人。
 
-在课程模板本地目录执行：
-
-```sh
-cp students.example.txt students.txt
-```
-
-创建本地名单，每行填写一个 GitHub 登录名。该名单被 Git 忽略。
-
-```sh
-python3 enroll.py
-```
-
-脚本检查模板、组织权限、共享 Secret 与学员账号，然后创建公开学员仓库，设置 `STUDENT_GITHUB`，分配写入权限，并主动触发配置检查。重复执行保留已有代码和身份。只接入一人也可运行 `python3 enroll.py 学员GitHub登录名`。
-
-初次模板生成 push 时尚未绑定学员，CI 会跳过；配置完成后脚本触发 **Check student configuration**。它只检查身份和 Token 是否存在，不调用 OpenCamp。学员接受邀请后按[提交指南](STUDENT_GUIDE.md)开始实验。
-
-组织 Secret 和首个学员仓库的共享读取已实际验证。若 GitHub 排队期间身份变量已经写入，初次生成的 push 也可能直接开始评测；上传仍要求触发账号等于分配的学员。
+初次生成模板仓库时，变量未设置的自动运行会跳过。若排队期间已经绑定身份，初次 push 也可能开始评测；上传仍要求触发账号等于学员账号。
 
 ## 3. 核对自动评测和上传
 
@@ -62,3 +44,7 @@ python3 enroll.py
 ## 真实验证
 
 见[验证记录](VALIDATION.md)，区分静态检查、模拟接口测试、真实 CI 和 OpenCamp 接口接受结果。
+
+## 本地应急建仓
+
+保留 `enroll.py` 供维护者处理入口故障。维护者已经完成 GitHub CLI 登录时，在本课程目录执行 `python3 enroll.py 学员GitHub登录名`；不需要把课程 Token 传给脚本。日常使用上面的自助领取入口。

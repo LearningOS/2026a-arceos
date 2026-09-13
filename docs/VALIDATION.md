@@ -29,6 +29,10 @@ OpenCamp accepted the score (result=1).
 
 16 项本地脚本测试通过，覆盖身份、结果完整性、分值、退出状态和上传错误处理；它们与上述真实 CI 分开记录。未把模板改成参考答案，也没有声称满分用例已经通过。
 
-已只读核对 [OpenCamp 秋冬季项目先导阶段](https://opencamp.cn/os2edu/camp/2026fall/stage/6) 的公开课程数据，课程编号为 2078。排行榜的登录态实际行显示仍待核验；接口接受结果已经验证。未修改 OpenCamp 后台。
+已只读核对 [OpenCamp 秋冬季项目先导阶段](https://opencamp.cn/os2edu/camp/2026fall/stage/6) 的公开课程数据，课程编号为 2078。按公开课程页面使用的排行榜查询接口进一步核对，`Alayfolk64` 的真实记录为 0 分，与本次测得并上传的分数一致。浏览器完整表格受自动化连接限制，未声称完成视觉验收。未修改 OpenCamp 后台。
 
-自助领取入口位于 [2026f-autotest/enroll](https://github.com/2026f-autotest/enroll)，当前入口代码已部署，跨仓库建仓凭证待配置。
+自助领取入口位于 [2026f-autotest/enroll](https://github.com/2026f-autotest/enroll)，已配置一次性建仓凭证并通过真实 Issue 自动领取及学员配置检查，详情见入口验证记录。
+
+## 自助领取
+
+统一入口 [2026f-autotest/enroll](https://github.com/2026f-autotest/enroll) 已启用；本课程已用维护者账号验证新 Issue 自动触发、识别申请人、配置仓库、回复链接及配置检查成功。该次沿用已有课程仓库；外部学员接受邀请尚未用第二个账号实测。见[入口验证记录](https://github.com/2026f-autotest/enroll/blob/main/docs/VALIDATION.md)。

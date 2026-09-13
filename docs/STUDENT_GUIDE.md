@@ -2,7 +2,9 @@
 
 ## 1. 绑定账号并领取仓库
 
-在 OpenCamp 加入课程 2078 对应训练营，并绑定自己的 GitHub 登录名。把登录名提供给维护者，接受 GitHub 仓库邀请。无需加入组织成为成员，也无需自己创建或 Fork 作业仓库。
+在 [OpenCamp 本阶段](https://opencamp.cn/os2edu/camp/2026fall/stage/6)加入课程 **2078**，并绑定自己的 GitHub 登录名。
+
+点击[领取作业仓库](https://github.com/2026f-autotest/enroll/issues/new?template=enroll.yml)，选择 **2078** 并提交 Issue。系统自动读取申请人账号；等待机器人回复，打开回复里的邀请链接并接受邀请。无需手填用户名、加入组织、自己建仓或 Fork，也无需安装 GitHub CLI 或配置 Token。
 
 ## 2. 克隆作业仓库
 

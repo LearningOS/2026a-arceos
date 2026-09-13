@@ -7,11 +7,11 @@
 ## 学员提交流程
 
 1. 在 OpenCamp 加入本阶段训练营，绑定自己的 GitHub 登录账号。
-2. 向维护者提供 GitHub 登录名，接受 `2026f-autotest/2026f-arceos-用户名` 的仓库邀请。
+2. 点击[领取作业仓库](https://github.com/2026f-autotest/enroll/issues/new?template=enroll.yml)，选择课程 **2078** 并提交申请；等待机器人回复，然后接受仓库邀请。
 3. 克隆分配的仓库，在 `main` 完成实验并 push。
 4. 在 Actions 查看各项测试、原始日志、分数和上传结果，再核对 OpenCamp 学员成绩页面。
 
-**学员无需 Fork、安装 GitHub CLI 或填写课程 Token。** 身份由维护者绑定，Token 由组织 Secret 共享。
+**学员无需 Fork、安装 GitHub CLI 或填写课程 Token。** 身份由领取程序自动绑定，Token 由组织 Secret 共享。
 
 详细步骤见[学员指南](docs/STUDENT_GUIDE.md)。维护者见[建仓与维护流程](docs/MAINTAINER.md)。
 

@@ -1,85 +1,42 @@
-# 开源操作系统训练营第三阶段——ArceOS
+# 2026f 项目先导阶段 — 组件化操作系统
 
+基于 [LearningOS 2026s 课程仓库](https://github.com/LearningOS/2026s-oscamp-professional-2026s-arceos-arceos-classroom-2026s-arceos-oscamp)，由 [2026f-autotest](https://github.com/2026f-autotest) 统一分配学员仓库、运行真实测试并上传 OpenCamp。
 
+**课程编号：2078 · 6 项练习 · 总分：600**
 
-本仓库为 [ArceOS](https://github.com/arceos-org/arceos) 的一个剪裁版本，提供了更多初始化的组件与可用于训练的题目，作为开源操作系统第三阶段的训练题目。
+## 学员提交流程
 
+1. 在 OpenCamp 加入本阶段训练营，绑定自己的 GitHub 登录账号。
+2. 向维护者提供 GitHub 登录名，接受 `2026f-autotest/2026f-arceos-用户名` 的仓库邀请。
+3. 克隆分配的仓库，在 `main` 完成实验并 push。
+4. 在 Actions 查看各项测试、原始日志、分数和上传结果，再核对 OpenCamp 学员成绩页面。
 
+**学员无需 Fork、安装 GitHub CLI 或填写课程 Token。** 身份由维护者绑定，Token 由组织 Secret 共享。
 
-## 目录结构
+详细步骤见[学员指南](docs/STUDENT_GUIDE.md)。维护者见[建仓与维护流程](docs/MAINTAINER.md)。
 
-- arceos/：ArceOS 内核源码，它与上游[主线版本](https://github.com/arceos-org/arceos)有所差距，旨在通过剪裁版本让同学们更好理解代码
-- course/：ArceOS 教学资料，配合[第三阶段课程](https://opencamp.cn/os2edu/camp/2026spring/stage/3?tab=video)进行学习
-- crates/：ArceOS 所依赖并且由我们手动修改的模块，这里仅包括 kernel_guard 一个手动修改的模块
-- scripts/：评测脚本，其中 `total-test.sh` 代表执行所有测试，其他脚本分别执行一个测例
-- challenges/：挑战题目说明，具体评测脚本位于本仓库 [lab1 分支](https://github.com/LearningOS/2026s-oscamp-stage3/tree/lab1)
+## 计分规则
 
+沿用往期各项练习的权重，每项全部通过才获得该项分数。每次提交重新计算全部练习，上传本次实际总分；不是按提交次数累加。部分完成也会上传测得的分数。编译或测试未通过、超时的练习记 0 分；环境准备失败、缺少结果或结果不完整时不上传。
 
+| 练习 | 分值 |
+| --- | ---: |
+| `print_with_color` | 100 |
+| `ramfs_rename` | 100 |
+| `alt_alloc` | 100 |
+| `support_hashmap` | 100 |
+| `sys_map` | 100 |
+| `simple_hv` | 100 |
 
-## 环境配置
+Actions 中测试作业变红表示还有未完成练习；单独的 **Save measured score and upload to OpenCamp** 作业显示成绩同步是否成功。日志出现 `OpenCamp accepted the score (result=1).` 才表示接口接受成绩。
 
-可以参考执行如下命令：
+成绩明细同时保存在运行附件和学员仓库的 `gh-pages:course-2078.json`，无需启用 GitHub Pages。
 
-```shell
-sudo apt-get update 
-sudo apt-get install -y \
-  wget \
-  xxd \
-  curl \
-  gcc \
-  g++ \
-  make \
-  libclang-dev \
-  qemu-system-misc \
-  bash \
-  sudo \
-  git \
-  dosfstools \
-  build-essential \
-  pkg-config \
-  libssl-dev \
-  libz-dev \
-  libclang-dev
+## 文档与来源
 
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source "$HOME/.cargo/env"
-cargo install cargo-binutils
+- [学员指南](docs/STUDENT_GUIDE.md)
+- [维护流程](docs/MAINTAINER.md)
+- [验证记录](docs/VALIDATION.md)
+- [2026s 上游原始说明](docs/UPSTREAM-2026s.md)
 
-mkdir -p /opt/musl && cd /opt/musl
-wget https://musl.cc/aarch64-linux-musl-cross.tgz
-wget https://musl.cc/riscv64-linux-musl-cross.tgz
-wget https://musl.cc/x86_64-linux-musl-cross.tgz
-tar zxf aarch64-linux-musl-cross.tgz
-tar zxf riscv64-linux-musl-cross.tgz
-tar zxf x86_64-linux-musl-cross.tgz
-
-qemu-system-riscv64 --version
-source $HOME/.cargo/env
-```
-
-
-
-## 评测方式
-
-### ArceOS 训练题
-
-在`main`分支根目录下执行：
-
-```shell
-./scripts/total-test.sh > tmp.txt
-```
-
-此时会对`scripts`下所有脚本进行评测，并将结果输出到 `tmp.txt` 中。每一个评测脚本 100 分，通过即可获得满分。
-
-### 挑战题
-
-请切换到`lab1`分支，执行
-
-```sh
-./verify_lab1.sh > tmpa.txt
-```
-
-此时会对挑战题进行评测，并将结果输出到 `tmpa.txt` 中。
-
-关于挑战题的评分逻辑，详见[challenge](./challenges)。
-
+上游源码提交：`85237911b8fb71ac94d7a7c51597ebec6b73e939`。保留原有实验源码、练习题和许可证。

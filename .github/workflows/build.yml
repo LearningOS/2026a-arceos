@@ -1,0 +1,114 @@
+name: 2026f-arceos grading
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: course-grading-${{ github.repository }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: never
+  TZ: Asia/Shanghai
+  OSCAMP_COURSE_ID: '2078'
+
+jobs:
+  grade:
+    name: Test exercises and calculate score
+    if: >-
+      github.repository == '2026f-autotest/2026f-arceos' || vars.STUDENT_GITHUB != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      ready: ${{ steps.grade.outputs.ready }}
+      score: ${{ steps.grade.outputs.score }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Keep temporary files inside the repository
+        run: |
+          mkdir -p tmp/grade
+          echo "TMPDIR=$GITHUB_WORKSPACE/tmp" >> "$GITHUB_ENV"
+      - name: Install QEMU and build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libclang-dev qemu-system-misc dosfstools mtools pkg-config libssl-dev zlib1g-dev
+      - uses: arceos-org/setup-musl@v1
+        with:
+          arch: riscv64
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: nightly-2024-09-04
+          components: rust-src, llvm-tools, clippy, rustfmt
+          targets: riscv64gc-unknown-none-elf
+      - name: Prepare pinned 2026s build environment
+        working-directory: arceos
+        run: |
+          rustc --version
+          cargo --version
+          qemu-system-riscv64 --version
+          rust_sysroot=$(rustc --print sysroot)
+          llvm_bin="$rust_sysroot/lib/rustlib/x86_64-unknown-linux-gnu/bin"
+          ln -sf "$llvm_bin/llvm-objcopy" "$HOME/.cargo/bin/rust-objcopy"
+          ln -sf "$llvm_bin/llvm-objdump" "$HOME/.cargo/bin/rust-objdump"
+          cargo update -p indexmap --precise 2.6.0
+          cargo fetch --locked
+      - name: Run the course checker
+        id: grade
+        run: python3 .github/scripts/grade.py
+      - name: Preserve measured results and raw logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: course-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            tmp/grade/*.json
+            tmp/grade/*.log
+            arceos/Cargo.lock
+          retention-days: 30
+      - name: Mark unfinished exercises
+        if: steps.grade.outputs.ready == 'true' && steps.grade.outputs.passed != 'true'
+        run: |
+          echo 'Some exercises have not passed. The measured partial score is available in the summary and artifact.'
+          exit 1
+
+  report:
+    name: Save measured score and upload to OpenCamp
+    needs: grade
+    if: >-
+      always() && !cancelled() && needs.grade.outputs.ready == 'true' &&
+      github.repository_owner == '2026f-autotest' &&
+      github.repository != '2026f-autotest/2026f-arceos' &&
+      vars.STUDENT_GITHUB != '' && github.actor == vars.STUDENT_GITHUB
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: course-${{ github.run_id }}-${{ github.run_attempt }}
+          path: tmp/download
+      - name: Locate the measured result
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import shutil
+          files = list(Path('tmp/download').rglob('result.json'))
+          if len(files) != 1:
+              raise SystemExit('Expected exactly one measured result artifact.')
+          Path('tmp/grade').mkdir(parents=True, exist_ok=True)
+          shutil.copyfile(files[0], 'tmp/grade/result.json')
+          PYTHON
+      - name: Upload the assigned student's measured score
+        env:
+          STUDENT_GITHUB: ${{ vars.STUDENT_GITHUB }}
+          COURSE_TOKEN: ${{ secrets.OSCAMP_2026F_ARCEOS_TOKEN }}
+        run: python3 .github/scripts/publish.py

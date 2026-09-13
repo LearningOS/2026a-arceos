@@ -775,11 +775,11 @@ dependencies = [
 
 [[package]]
 name = "dw_apb_uart"
-version = "0.1.1"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6e223e719484d84fa8bee05b4eb682e7454f2d547e8dc2177243951a567d6a9b"
+checksum = "f93d496c8faa9dc676ebfa225432e1e3b57645c9268ead889286546f6d39356d"
 dependencies = [
- "tock-registers 0.10.1",
+ "tock-registers 0.8.1",
 ]
 
 [[package]]
@@ -1956,12 +1956,6 @@ name = "tock-registers"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b9e2fdb3a1e862c0661768b7ed25390811df1947a8acbfbefe09b47078d93c4"
-
-[[package]]
-name = "tock-registers"
-version = "0.10.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d2d250f87fb3fb6f225c907cf54381509f47b40b74b1d1f12d2dccbc915bdfe"
 
 [[package]]
 name = "toml_datetime"

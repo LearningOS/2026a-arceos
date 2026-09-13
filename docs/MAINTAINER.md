@@ -9,6 +9,7 @@
 | 组织 Secret | `OSCAMP_2026F_ARCEOS_TOKEN` |
 | 学员变量 | `STUDENT_GITHUB` |
 | 学员仓库 | `2026f-autotest/2026f-arceos-GitHub登录名` |
+| Rust 工具链 | `nightly-2024-09-04`，沿用 2026s |
 
 ## 1. 维护者配置一次
 
@@ -40,6 +41,8 @@ python3 enroll.py
 
 初次模板生成 push 时尚未绑定学员，CI 会跳过；配置完成后脚本触发 **Check student configuration**。它只检查身份和 Token 是否存在，不调用 OpenCamp。学员接受邀请后按[提交指南](STUDENT_GUIDE.md)开始实验。
 
+组织 Secret 和首个学员仓库的共享读取已实际验证。若 GitHub 排队期间身份变量已经写入，初次生成的 push 也可能直接开始评测；上传仍要求触发账号等于分配的学员。
+
 ## 3. 核对自动评测和上传
 
 `main` 的 push 自动运行 `.github/workflows/build.yml`。测试作业只拿到只读仓库权限，不含课程 Token；评分脚本在 `.github/scripts/grade.py`，保留真实输出、退出状态与超时结果。
@@ -47,6 +50,8 @@ python3 enroll.py
 `.github/scripts/publish.py` 读取本次运行的结果附件，校验课程、仓库、提交、练习清单、权重与学员身份；将当前实际分数保存到 `gh-pages:course-2078.json` 后，调用固定 OpenCamp 成绩上传 API。只有 `result=1` 才视为成功，HTTP 或业务错误会明确失败。Token 只在上传步骤注入，不出现在源码或日志。
 
 本阶段沿用往期部分得分规则：每次重新评测全部练习并上传当前总分。失败、回退代码可能使当前得分下降。新提交取消同仓库尚未完成的旧评测，以减少过时结果覆盖。
+
+`arceos/Cargo.lock` 固定实际依赖，CI 只执行 `cargo fetch --locked`，不自动更新依赖。旧流程只固定 `indexmap=2.6.0`，会拉入不兼容旧 Cargo 的 `dw_apb_uart=0.1.2`（`0.1.1` 也不兼容）；本版固定为 `0.1.0`。镜像准备与测试保留原有启动头、FAT 文件路径和输出断言，由 Python 记录退出状态；使用 mtools 写入镜像，临时镜像和日志位于仓库 `tmp/`。
 
 最终核对 Actions 上传作业及 OpenCamp 学员成绩页面；不需要登录或修改 OpenCamp 管理后台。
 

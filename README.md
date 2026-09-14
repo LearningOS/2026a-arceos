@@ -6,7 +6,7 @@
 
 ## 学员提交流程
 
-1. 在 OpenCamp 加入本阶段训练营，绑定自己的 GitHub 登录账号。
+1. 加入 [OpenCamp 秋冬季训练营](https://opencamp.cn/os2edu/camp/2026fall)，并绑定自己的 GitHub 账号。
 2. 点击[领取作业仓库](https://github.com/2026f-autotest/enroll/issues/new?template=arceos.yml)，点击 **Create** 提交申请；等待机器人回复，然后接受仓库邀请。
 3. 克隆分配的仓库，在 `main` 完成实验并 push。
 4. 在 Actions 查看各项测试、原始日志、分数和上传结果，再核对 OpenCamp 学员成绩页面。

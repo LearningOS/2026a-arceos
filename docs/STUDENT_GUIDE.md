@@ -2,9 +2,9 @@
 
 ## 1. 绑定账号并领取仓库
 
-在 [OpenCamp 本阶段](https://opencamp.cn/os2edu/camp/2026fall/stage/6)加入课程 **2078**，并绑定自己的 GitHub 登录名。
+在 [OpenCamp 本阶段](https://opencamp.cn/os2edu/camp/2026fall/stage/6)加入 **项目先导阶段 - 组件化操作系统**，并绑定自己的 GitHub 登录名。
 
-点击[领取作业仓库](https://github.com/2026f-autotest/enroll/issues/new?template=arceos.yml)，点击 **Create** 提交申请。系统自动读取申请人账号；等待机器人回复，打开回复里的邀请链接并接受邀请。无需手填用户名、加入组织、自己建仓或 Fork，也无需安装 GitHub CLI 或配置 Token。
+点击[领取作业仓库](https://github.com/2026f-autotest/enroll/issues/new?template=arceos.yml)，点击 **Create** 提交申请。系统自动读取申请人账号；等待机器人回复，打开回复里的邀请链接并接受邀请。
 
 ## 2. 克隆作业仓库
 
@@ -30,7 +30,7 @@ git commit -m "Complete an exercise"
 git push origin main
 ```
 
-依次暂存指定实验文件、记录提交、推送到分配仓库的 `main`。Git 的 push 仍需使用自己的 GitHub 账号授权；这与课程上传 Token 无关。可以直接用已登录的 GitHub Desktop 或编辑器完成相同步骤。
+依次暂存指定实验文件、记录提交、推送到分配仓库的 `main`。Git 的 push 仍需使用自己的 GitHub 账号授权。可以直接用已登录的 GitHub Desktop 或编辑器完成相同步骤。
 
 ## 4. 查看评测与成绩
 
@@ -38,4 +38,4 @@ git push origin main
 
 总分 600，上传本次完整评测的实际得分。未完成的模板出现测试失败属于预期。环境安装失败或运行被取消时不会上传不完整结果。
 
-上传成功日志为 `OpenCamp accepted the score (result=1).`。若接口拒绝，先确认自己加入本阶段训练营、绑定同一个 GitHub 账号，再把脱敏错误交给维护者。修复后可在 GitHub Actions 重跑工作流。学员不需要添加任何课程 Secret。
+上传成功日志为 `OpenCamp accepted the score (result=1).`。若接口拒绝，先确认自己加入本阶段训练营、绑定同一个 GitHub 账号，再把脱敏错误交给维护者。修复后可在 GitHub Actions 重跑工作流。

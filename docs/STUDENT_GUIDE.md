@@ -18,7 +18,7 @@ git clone https://github.com/2026f-autotest/2026f-arceos-你的GitHub登录名.g
 cd 2026f-arceos-你的GitHub登录名
 ```
 
-进入本地仓库。保持在默认的 `main` 分支完成实验，环境与课程说明见 [2026s 原始文档](UPSTREAM-2026s.md)。
+进入本地仓库。保持在默认的 `main` 分支完成实验。
 
 ## 3. 提交实验
 

@@ -11,7 +11,7 @@
 3. 克隆分配的仓库，在 `main` 完成实验并 push。
 4. 在 Actions 查看各项测试、原始日志、分数和上传结果，再核对 OpenCamp 学员成绩页面。
 
-详细步骤见[学员指南](docs/STUDENT_GUIDE.md)。维护者见[建仓与维护流程](docs/MAINTAINER.md)。
+详细步骤见[学员指南](docs/STUDENT_GUIDE.md)。
 
 ## 计分规则
 
@@ -30,11 +30,6 @@ Actions 中测试作业变红表示还有未完成练习；单独的 **Save meas
 
 成绩明细同时保存在运行附件和学员仓库的 `gh-pages` 分支的成绩文件，无需启用 GitHub Pages。
 
-## 文档与来源
+## 学员指南
 
 - [学员指南](docs/STUDENT_GUIDE.md)
-- [维护流程](docs/MAINTAINER.md)
-- [验证记录](docs/VALIDATION.md)
-- [2026s 上游原始说明](docs/UPSTREAM-2026s.md)
-
-上游源码提交：`85237911b8fb71ac94d7a7c51597ebec6b73e939`。保留原有实验源码、练习题和许可证。

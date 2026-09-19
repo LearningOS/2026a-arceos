@@ -11,8 +11,8 @@ permissions:
 jobs:
   configuration:
     if: >-
-      github.repository_owner == '2026f-autotest' &&
-      github.event.repository.name != '2026f-arceos' &&
+      github.repository_owner == 'LearningOS' &&
+      github.event.repository.name != '2026a-arceos' &&
       (github.event_name == 'workflow_dispatch' || vars.STUDENT_GITHUB != '')
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -23,7 +23,7 @@ jobs:
       - name: Check assigned identity and shared secret
         env:
           STUDENT_GITHUB: ${{ vars.STUDENT_GITHUB }}
-          COURSE_TOKEN: ${{ secrets.OSCAMP_2026F_ARCEOS_TOKEN }}
+          COURSE_TOKEN: ${{ secrets.OSCAMP_2026A_ARCEOS_TOKEN }}
         run: |
           python3 - <<'PYTHON'
           import os

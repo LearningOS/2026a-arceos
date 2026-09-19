@@ -64,11 +64,11 @@ class CourseTests(unittest.TestCase):
             course.validate_result(result, self.repository, "measured-commit")
 
     def test_assigned_account_only(self):
-        self.assertEqual(course.student_login(self.repository, "2026f-autotest", "student", "student"), "student")
+        self.assertEqual(course.student_login(self.repository, "LearningOS", "student", "student"), "student")
         for repository, actor in [(self.repository, "maintainer"),
-                                  ("2026f-autotest/" + course.COURSE["name"], "student")]:
+                                  ("LearningOS/" + course.COURSE["name"], "student")]:
             with self.assertRaises(ValueError):
-                course.student_login(repository, "2026f-autotest", actor, "student")
+                course.student_login(repository, "LearningOS", actor, "student")
 
     def test_api_business_error_and_secret_redaction(self):
         token = "private-test-value"

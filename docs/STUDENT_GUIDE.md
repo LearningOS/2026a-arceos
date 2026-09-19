@@ -4,18 +4,18 @@
 
 加入 [OpenCamp 秋冬季训练营](https://opencamp.cn/os2edu/camp/2026fall)，并绑定自己实际使用的 GitHub 账号。
 
-点击[领取作业仓库](https://github.com/2026f-autotest/enroll/issues/new?template=arceos.yml)，点击 **Create** 提交申请。系统自动读取申请人账号；等待机器人回复，打开回复里的邀请链接并接受邀请。
+点击[领取作业仓库](https://github.com/LearningOS/2026a-enroll/issues/new?template=arceos.yml)，点击 **Create** 提交申请。系统自动读取申请人账号；等待机器人回复，打开回复里的邀请链接并接受邀请。
 
 ## 2. 克隆作业仓库
 
 ```sh
-git clone https://github.com/2026f-autotest/2026f-arceos-你的GitHub登录名.git
+git clone https://github.com/LearningOS/2026a-arceos-你的GitHub登录名.git
 ```
 
 把占位文字替换为自己的登录名；该命令下载已分配的作业仓库。
 
 ```sh
-cd 2026f-arceos-你的GitHub登录名
+cd 2026a-arceos-你的GitHub登录名
 ```
 
 进入本地仓库。保持在默认的 `main` 分支完成实验。

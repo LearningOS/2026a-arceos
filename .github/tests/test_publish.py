@@ -26,7 +26,7 @@ class PublishTests(unittest.TestCase):
         self.root = Path(self.directory.name)
         self.commit = "a" * 40
         self.remote_commit = self.commit
-        self.repository = f"2026f-autotest/{course.COURSE['name']}-student"
+        self.repository = f"LearningOS/{course.COURSE['name']}-student"
         self.result = {"schema": 1, "courseId": course.COURSE["courseId"],
                        "totalScore": course.COURSE["totalScore"], "repository": self.repository,
                        "commit": self.commit, "score": 0,
@@ -34,7 +34,7 @@ class PublishTests(unittest.TestCase):
         (self.root / "tmp/grade").mkdir(parents=True)
         (self.root / "tmp/grade/result.json").write_text(json.dumps(self.result))
         self.env = {"COURSE_TOKEN": "placeholder-only", "OSCAMP_COURSE_ID": str(course.COURSE["courseId"]),
-                    "GITHUB_REPOSITORY": self.repository, "GITHUB_REPOSITORY_OWNER": "2026f-autotest",
+                    "GITHUB_REPOSITORY": self.repository, "GITHUB_REPOSITORY_OWNER": "LearningOS",
                     "GITHUB_ACTOR": "student", "STUDENT_GITHUB": "student", "GITHUB_REF_NAME": "main",
                     "GITHUB_SHA": self.commit, "GITHUB_RUN_ID": "10", "GITHUB_RUN_ATTEMPT": "2"}
         self.old = None

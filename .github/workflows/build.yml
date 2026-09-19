@@ -1,4 +1,4 @@
-name: 2026f-arceos grading
+name: 2026a-arceos grading
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
     name: Test exercises and calculate score
     if: >-
       !startsWith(github.event.repository.name, 'preparing-') &&
-      (github.repository == '2026f-autotest/2026f-arceos' || vars.STUDENT_GITHUB != '')
+      (github.repository == 'LearningOS/2026a-arceos' || vars.STUDENT_GITHUB != '')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     concurrency:
@@ -86,8 +86,8 @@ jobs:
       !startsWith(github.event.repository.name, 'preparing-') &&
       always() && !cancelled() && needs.grade.outputs.ready == 'true' &&
       needs.grade.outputs.artifact_id != '' &&
-      github.repository_owner == '2026f-autotest' &&
-      github.repository != '2026f-autotest/2026f-arceos' &&
+      github.repository_owner == 'LearningOS' &&
+      github.repository != 'LearningOS/2026a-arceos' &&
       vars.STUDENT_GITHUB != '' && github.actor == vars.STUDENT_GITHUB
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -118,5 +118,5 @@ jobs:
       - name: Upload the assigned student's measured score
         env:
           STUDENT_GITHUB: ${{ vars.STUDENT_GITHUB }}
-          COURSE_TOKEN: ${{ secrets.OSCAMP_2026F_ARCEOS_TOKEN }}
+          COURSE_TOKEN: ${{ secrets.OSCAMP_2026A_ARCEOS_TOKEN }}
         run: python3 .github/scripts/publish.py

@@ -7,7 +7,7 @@
 ## 领取与克隆
 
 1. 加入 [OpenCamp 秋冬季训练营](https://opencamp.cn/os2edu/camp/2026fall)，并绑定自己的 GitHub 账号。
-2. 点击[领取作业仓库](https://github.com/LearningOS/2026a-enroll/issues/new?template=arceos.yml)，点击 **Create** 提交申请；等待机器人回复，接受仓库邀请。
+2. 本阶段暂未开放作业仓库领取，请等待开课通知。
 3. 克隆分配的仓库，在 `main` 完成实验。
 
 ```sh
